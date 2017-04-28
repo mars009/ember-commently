@@ -1,3 +1,4 @@
+{{#unless editMode}}
 <p class='comment-body'>
   {{model.body}}
 </p>
@@ -6,6 +7,13 @@
       onClick={{this.attrs.delete-comment}}>
 </span>
 
+<span class="edit-indicator"
+  onClick={{toggle 'editMode' this}}></span>
+{{else}}
+  {{x-textarea value=model.body}}
+  <button class="btn"
+    onClick={{action 'saveComment'}}>Save</button>
+{{/unless}}
 {{#if model.updatedAt}}
   <span class="posted-at">
     {{moment-from-now model.updatedAt}}
