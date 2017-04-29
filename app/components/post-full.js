@@ -8,7 +8,7 @@ export default Component.extend({
   postInfo: stateFor('post-info', 'model'),
   actions: {
     deleteComment(comment) {
-      comment.destroyRecord();
+      comment.destroyRecord().catch(() => console.log('Catching 401'));
     }
   }
 });

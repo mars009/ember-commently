@@ -3,8 +3,10 @@
     <img src={{model.authorPhotoUrl}} alt="">
   </div>
   <div class="post-tile-content">
+      {{!-- We add 'liquid-bind' so liquid-fire will animate this part
+      of our component--}}
       <span class="comment-count">
-        {{model.comments.length}}
+        {{liquid-bind model.comments.length}}
       </span>
       <h3>{{model.title}}</h3>
       {{#if postInfo.draftComment}}
