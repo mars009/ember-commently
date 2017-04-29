@@ -10,9 +10,17 @@
 <span class="edit-indicator"
   onClick={{toggle 'editMode' this}}></span>
 {{else}}
-  {{x-textarea value=model.body}}
+  
+  {{x-textarea 
+    value=model.body
+    disabled=(not saveComment.isIdle)}}
+  
+  {{!-- Tasks are not triggered with the action helper, but with a helper called 'perform' passing the taskName (note it is not a string, just the actual task).
+  If you are programmatically (in js land) kicking a task you can do 'this.get('taskName').perform()'
+  NOTE: One thing that ember-concurrency also brings is the property 'isIdle', which lets us know the task is running or doing nothing--}}
   <button class="btn"
-    onClick={{action 'saveComment'}}>Save</button>
+    disabled={{not saveComment.isIdle}}
+    onClick={{perform saveComment}}>Save</button>
 {{/unless}}
 {{#if model.updatedAt}}
   <span class="posted-at">

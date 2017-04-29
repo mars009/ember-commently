@@ -7,20 +7,15 @@ const { Component } = Ember;
 export default Component.extend({
   classNames: ['post-comment'],
   editMode: false,
-  actions: {
-    saveComment() {
-      // Save the comment
-      this.get('model').save().then(() => {
-        // Set editMode back to false
-        this.set('editMode', false);
-      }).catch(() => {
-        console.log('here');
-        // Set editMode back to false
-        setTimeout(() => {
-          console.log('in here');
-          this.set('editMode', false);
-        }, 5000);
-      });
-    }
-  }
+   // Tasks don't belong in the action block, they are just props of the object
+  saveComment: task(function* () {
+    // What 'yield' of the promised returned by 'save' does is letting the generator function know
+    // that it needs to pause and come back when this Async thing has finished. Any variables
+    // around your 'yields' will be preserved (so enclosed) waiting for us when we resume.
+    // NOTE: We also don't need the guard to check if the component is destroyed or being destroyed
+    yield this.get('model').save().catch(() => { 
+      console.log('catching 401 error');
+      this.set('editMode', false);
+    });
+  })
 });
